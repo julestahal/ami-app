@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Device Management</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Segment control to switch between sections -->
+  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="register">
+      <ion-label>Register Device</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="install">
+      <ion-label>Device Installation</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Register Device Form Section -->
+  <div *ngIf="segment === 'register'">
+    <h2>Register Device</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <div class="snnum">
+          <ion-label position="stacked">Serial Number</ion-label>
+        </div>
+        <ion-input formControlName="serialNumber" placeholder="Enter Serial Number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <div class="sarea">
+          <ion-label position="stacked">Service Area</ion-label>
+        </div>
+        <ion-input formControlName="serviceArea" placeholder="Enter Service Area"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Submit</ion-button>
+    </form>
+  </div>
+
+  <!-- Device Installation Form Section -->
+  <div *ngIf="segment === 'install'">
+    <h2>Device Installation</h2>
+    <form [formGroup]="installForm" (ngSubmit)="onInstallSubmit()">
+      <ion-item>
+        <div class="snnum">
+          <ion-label position="stacked">Serial Number</ion-label>
+        </div>
+        <ion-input formControlName="serialNumber" placeholder="Enter Serial Number"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <div class="mread">
+          <ion-label position="stacked">Meter Reading</ion-label>
+        </div>
+        <ion-input formControlName="meterReading" placeholder="Enter Meter Reading"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <div class="currgps">
+          <ion-label position="stacked">Location</ion-label>
+        </div>
+        <ion-input formControlName="location" [value]="currentLocation" readonly placeholder="Geolocation"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" (click)="getGeolocation()">Get Location</ion-button>
+
+      <ion-item>
+        <div class="snap">
+          <ion-label position="stacked">Photo</ion-label>
+        </div>
+        <ion-input formControlName="photo" [value]="imageUrl" readonly placeholder="Take a Photo"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" (click)="takePhoto()">Take Photo</ion-button>
+
+      <ion-button expand="full" type="submit" [disabled]="!installForm.valid">Submit Installation</ion-button>
+    </form>
+  </div>
+</ion-content>
